@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "ok": "OK",
+  "cancel": "Cancel",
+  "save": "Save",
+  "adviceList": "Advice List",
+  "adviceAdd": "Advice Add",
+  "adviceEdit": "Advice Edit",
+  "all": "All",
+  "completed": "Completed",
+  "inCompleted": "InCompleted",
+  "filter": "filter",
+  "adviceNeedTextTitle": "Need advice text"
+}

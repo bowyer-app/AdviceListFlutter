@@ -1,0 +1,14 @@
+{
+  "@@locale": "ja",
+  "ok": "OK",
+  "cancel": "CANCEL",
+  "save": "保存",
+  "adviceList": "指導メモ一覧",
+  "adviceAdd": "指導メモ追加",
+  "adviceEdit": "指導メモ編集",
+  "all": "全て",
+  "completed": "完了済み",
+  "inCompleted": "未完了",
+  "filter": "絞り込む",
+  "adviceNeedTextTitle": "指導メモは必須です"
+}
