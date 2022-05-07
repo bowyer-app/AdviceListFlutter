@@ -3,6 +3,8 @@ This project is example of Flutter app.
 
 The code is part of the  [採点簿Pro](https://apps.apple.com/jp/app/%E6%8E%A1%E7%82%B9%E7%B0%BFpro/id1561512888).
 
+<a href="https://github.com/bowyer-app/AdviceListFlutter/blob/master/art/origin.gif" target="_blank"><img src="https://github.com/bowyer-app/AdviceListFlutter/blob/master/art/origin.gif" alt="AdviceList" width="20%;"></a>
+
 # Getting Started
 ## Flutter Setup
 https://docs.flutter.dev/get-started/install
