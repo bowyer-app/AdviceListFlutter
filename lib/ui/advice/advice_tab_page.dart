@@ -6,26 +6,20 @@ import 'package:app/ui/component/scaffold/app_scaffold.dart';
 import 'package:app/ui/component/theme/theme_switch_widget.dart';
 import 'package:app/ui/hook/use_l10n.dart';
 import 'package:app/ui/route/app_route.dart';
-import 'package:app/ui/theme/app_colors.dart';
 import 'package:app/ui/theme/app_theme.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'list/advice_list_page.dart';
 
-class AdviceTabPage extends HookWidget {
+class AdviceTabPage extends HookConsumerWidget {
   const AdviceTabPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final tabController =
-        useTabController(initialLength: CompleteType.values.length);
+  Widget build(BuildContext context, WidgetRef ref) {
     final fabController = useAnimationController(
       duration: const Duration(
         milliseconds: 200,
@@ -38,44 +32,91 @@ class AdviceTabPage extends HookWidget {
     fabController.forward();
 
     final l10n = useL10n();
-    return HookConsumer(
-      builder: (BuildContext context, ref, child) {
-        final controller = ref.read(adviceTabPageControllerProvider.notifier);
-        useMemoized(
-          () {
-            controller.onBuildStart();
-          },
-        );
-        final appColors = ref.watch(appThemeProvider).appColors;
-        return AppScaffold(
-          body: _buildTab(
-            l10n: l10n,
-            tabController: tabController,
-            fabController: fabController,
-            appColors: appColors,
-            fabAnimation: fabAnimation,
-            context: context,
-            controller: controller,
-          ),
-          title: l10n.adviceList,
-          disableElevation: true,
-          menuActions: const [
-            ThemeSwitchWidget(),
-          ],
+    final controller = ref.read(adviceTabPageControllerProvider.notifier);
+    useMemoized(
+      () {
+        controller.onBuildStart();
+      },
+    );
+    return AppScaffold(
+      body: _TabBody(
+        fabController: fabController,
+        fabAnimation: fabAnimation,
+      ),
+      title: l10n.adviceList,
+      disableElevation: true,
+      menuActions: const [
+        ThemeSwitchWidget(),
+      ],
+    );
+  }
+}
+
+class _FloatingActionButtons extends HookConsumerWidget {
+  const _FloatingActionButtons(this.fabAnimation);
+
+  final Animation<double> fabAnimation;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appColors = ref.watch(appThemeProvider).appColors;
+    final controller = ref.read(adviceTabPageControllerProvider.notifier);
+
+    final l10n = useL10n();
+    final filterFab = FilterFabWidget(
+      appColors: appColors,
+      l10n: l10n,
+      fabAnimation: fabAnimation,
+      onPressed: () {
+        // TODO 絞り込みのBottomSheet表示
+      },
+    );
+
+    final adviceAddFab = AdviceAddFabWidget(
+      appColors: appColors,
+      l10n: l10n,
+      fabAnimation: fabAnimation,
+      onPressed: () {
+        _openEditAdvice(
+          onEdited: controller.onEdited,
+          context: context,
         );
       },
     );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        adviceAddFab,
+        filterFab,
+      ],
+    );
   }
 
-  Widget _buildTab({
-    required L10n l10n,
-    required TabController tabController,
-    required AnimationController fabController,
-    required AppColors appColors,
-    required Animation<double> fabAnimation,
+  /// Method
+  void _openEditAdvice({
+    required VoidCallback onEdited,
     required BuildContext context,
-    required AdviceTabPageController controller,
   }) {
+    context.router.push(AdviceEditRoute()).then((value) {
+      onEdited();
+    });
+  }
+}
+
+class _TabBody extends HookConsumerWidget {
+  const _TabBody({
+    required this.fabController,
+    required this.fabAnimation,
+  });
+
+  final AnimationController fabController;
+  final Animation<double> fabAnimation;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appColors = ref.watch(appThemeProvider).appColors;
+    final l10n = useL10n();
+
     return DefaultTabController(
       length: CompleteType.values.length,
       child: Scaffold(
@@ -101,69 +142,22 @@ class AdviceTabPage extends HookWidget {
             ],
           ),
         ),
-        body: _buildBody(
-          appColors: appColors,
-          fabController: fabController,
-        ),
-        floatingActionButton: _buildFloatingActionButtons(
-          appColors: appColors,
-          l10n: l10n,
-          fabAnimation: fabAnimation,
-          context: context,
-          controller: controller,
-        ),
+        body: _Body(fabController),
+        floatingActionButton: _FloatingActionButtons(fabAnimation),
       ),
     );
   }
+}
 
-  Widget _buildFloatingActionButtons({
-    required AppColors appColors,
-    required L10n l10n,
-    required Animation<double> fabAnimation,
-    required BuildContext context,
-    required AdviceTabPageController controller,
-  }) {
-    final filterFab = FilterFabWidget(
-      appColors: appColors,
-      l10n: l10n,
-      fabAnimation: fabAnimation,
-      onPressed: () {
-        // TODO 絞り込みのBottomSheet表示
-      },
-    );
+class _Body extends ConsumerWidget {
+  const _Body(this.fabController);
 
-    final adviceAddFab = AdviceAddFabWidget(
-      appColors: appColors,
-      l10n: l10n,
-      fabAnimation: fabAnimation,
-      onPressed: () {
-        _openEditAdvice(
-          controller: controller,
-          context: context,
-        );
-      },
-    );
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        adviceAddFab,
-        filterFab,
-      ],
-    );
-  }
+  final AnimationController fabController;
 
-  Widget _buildBody({
-    required AppColors appColors,
-    required AnimationController fabController,
-  }) {
-    return Container(
-      color: appColors.surfaceColor,
-      child: _buildTabBarView(fabController),
-    );
-  }
-
-  Widget _buildTabBarView(AnimationController fabController) {
-    return TabBarView(
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appColors = ref.watch(appThemeProvider).appColors;
+    final tabBarView = TabBarView(
       children: [
         AdviceListPage(
           completeType: CompleteType.all,
@@ -194,16 +188,10 @@ class AdviceTabPage extends HookWidget {
         ),
       ],
     );
-  }
-
-  /// Method
-  void _openEditAdvice({
-    required AdviceTabPageController controller,
-    required BuildContext context,
-  }) {
-    context.router.push(AdviceEditRoute()).then((value) {
-      controller.onEdited();
-    });
+    return Container(
+      color: appColors.surfaceColor,
+      child: tabBarView,
+    );
   }
 
   void _onScrollReverse({
