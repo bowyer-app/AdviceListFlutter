@@ -1,8 +1,6 @@
 import 'package:app/gen/assets.gen.dart';
 import 'package:app/ui/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 class FilterFabWidget extends StatelessWidget {
@@ -35,6 +33,7 @@ class FilterFabWidget extends StatelessWidget {
       ),
     );
     final fab = CupertinoButton(
+      onPressed: onPressed,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -52,7 +51,6 @@ class FilterFabWidget extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: onPressed,
     );
     return ScaleTransition(
       scale: fabAnimation,
