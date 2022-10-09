@@ -44,39 +44,11 @@ class _AdviceEditPage extends ConsumerState<AdviceEditPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context)!;
-    final title =
-        widget.advice != null ? l10n.adviceEdit : l10n.adviceAdd;
+    final title = widget.advice != null ? l10n.adviceEdit : l10n.adviceAdd;
     return AppScaffold(
-      body: _buildBody(),
+      body: _Body(widget.advice?.adviceText),
       title: title,
-      menuActions: [_buildMenuButton()],
-    );
-  }
-
-  Widget _buildMenuButton() {
-    final controller = ref.read(adviceEditPageController.notifier);
-    return MenuButton(
-      onTap: controller.onTapSave,
-    );
-  }
-
-  Widget _buildBody() {
-    final controller = ref.read(adviceEditPageController.notifier);
-
-    final TextEditingController _controller =
-        TextEditingController(text: widget.advice?.adviceText);
-
-    final textField = TextField(
-      controller: _controller,
-      onChanged: controller.onTextChanged,
-      keyboardType: TextInputType.multiline,
-      maxLines: 10000,
-    );
-    return Container(
-      padding: const EdgeInsets.all(
-        16,
-      ),
-      child: textField,
+      menuActions: const [_SaveButton()],
     );
   }
 
@@ -113,6 +85,45 @@ class _AdviceEditPage extends ConsumerState<AdviceEditPage> {
           )
         ],
       ),
+    );
+  }
+}
+
+class _SaveButton extends ConsumerWidget {
+  const _SaveButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(adviceEditPageController.notifier);
+    return MenuButton(
+      onTap: controller.onTapSave,
+    );
+  }
+}
+
+class _Body extends ConsumerWidget {
+  const _Body(this.adviceText);
+
+  final String? adviceText;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(adviceEditPageController.notifier);
+
+    final TextEditingController textEditingController =
+        TextEditingController(text: adviceText);
+
+    final textField = TextField(
+      controller: textEditingController,
+      onChanged: controller.onTextChanged,
+      keyboardType: TextInputType.multiline,
+      maxLines: 10000,
+    );
+    return Container(
+      padding: const EdgeInsets.all(
+        16,
+      ),
+      child: textField,
     );
   }
 }
