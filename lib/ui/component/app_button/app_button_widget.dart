@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class AppButtonWidget extends StatelessWidget {
   final Widget child;
@@ -16,8 +15,8 @@ class AppButtonWidget extends StatelessWidget {
     return CupertinoButton(
       padding: const EdgeInsets.all(0),
       onPressed: onTap,
-      child: child,
       minSize: 12,
+      child: child,
     );
   }
 }
