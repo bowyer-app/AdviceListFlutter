@@ -3,10 +3,13 @@
 ///  FlutterGen
 /// *****************************************************
 
-// ignore_for_file: directives_ordering
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: directives_ordering,unnecessary_import
 
 class FontFamily {
   FontFamily._();
 
+  /// Font family: Rotunda
   static const String rotunda = 'Rotunda';
 }

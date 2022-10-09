@@ -1,8 +1,8 @@
 .PHONY: setup
 setup:
 	dart pub global activate fvm
-	fvm install 2.5.3
-	fvm use 2.5.3
+	fvm install 3.0.5
+	fvm use 3.0.5
 	sudo gem update cocoapods
 	fvm flutter pub get
 

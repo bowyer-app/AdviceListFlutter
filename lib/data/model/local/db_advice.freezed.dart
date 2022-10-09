@@ -211,17 +211,22 @@ class _$_DBAdvice implements _DBAdvice {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _DBAdvice &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.adviceText, adviceText) ||
-                other.adviceText == adviceText) &&
-            (identical(other.created, created) || other.created == created) &&
-            (identical(other.updated, updated) || other.updated == updated) &&
-            (identical(other.done, done) || other.done == done));
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality()
+                .equals(other.adviceText, adviceText) &&
+            const DeepCollectionEquality().equals(other.created, created) &&
+            const DeepCollectionEquality().equals(other.updated, updated) &&
+            const DeepCollectionEquality().equals(other.done, done));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, adviceText, created, updated, done);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(adviceText),
+      const DeepCollectionEquality().hash(created),
+      const DeepCollectionEquality().hash(updated),
+      const DeepCollectionEquality().hash(done));
 
   @JsonKey(ignore: true)
   @override

@@ -105,7 +105,7 @@ class __$AppThemeStateCopyWithImpl<$Res>
 class _$_AppThemeState implements _AppThemeState {
   const _$_AppThemeState({this.themeMode = ThemeMode.light});
 
-  @JsonKey(defaultValue: ThemeMode.light)
+  @JsonKey()
   @override
   final ThemeMode themeMode;
 
@@ -119,12 +119,12 @@ class _$_AppThemeState implements _AppThemeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _AppThemeState &&
-            (identical(other.themeMode, themeMode) ||
-                other.themeMode == themeMode));
+            const DeepCollectionEquality().equals(other.themeMode, themeMode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, themeMode);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(themeMode));
 
   @JsonKey(ignore: true)
   @override

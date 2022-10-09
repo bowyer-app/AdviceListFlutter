@@ -149,10 +149,10 @@ class _$_AdviceEditPageState implements _AdviceEditPageState {
 
   @override
   final Advice? advice;
-  @JsonKey(defaultValue: "")
+  @JsonKey()
   @override
   final String adviceText;
-  @JsonKey(defaultValue: "")
+  @JsonKey()
   @override
   final String inputText;
 
@@ -166,15 +166,18 @@ class _$_AdviceEditPageState implements _AdviceEditPageState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _AdviceEditPageState &&
-            (identical(other.advice, advice) || other.advice == advice) &&
-            (identical(other.adviceText, adviceText) ||
-                other.adviceText == adviceText) &&
-            (identical(other.inputText, inputText) ||
-                other.inputText == inputText));
+            const DeepCollectionEquality().equals(other.advice, advice) &&
+            const DeepCollectionEquality()
+                .equals(other.adviceText, adviceText) &&
+            const DeepCollectionEquality().equals(other.inputText, inputText));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, advice, adviceText, inputText);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(advice),
+      const DeepCollectionEquality().hash(adviceText),
+      const DeepCollectionEquality().hash(inputText));
 
   @JsonKey(ignore: true)
   @override
