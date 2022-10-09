@@ -1,8 +1,6 @@
 import 'package:app/gen/assets.gen.dart';
 import 'package:app/ui/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 class AdviceAddFabWidget extends StatelessWidget {
@@ -21,12 +19,8 @@ class AdviceAddFabWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = Assets.svgs.icVectorEdit.svg(
-      color: appColors.secondaryObjectColor,
-      width: 20,
-      height: 20,
-    );
     final fab = CupertinoButton(
+      onPressed: onPressed,
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
@@ -39,7 +33,6 @@ class AdviceAddFabWidget extends StatelessWidget {
           height: 24,
         ),
       ),
-      onPressed: onPressed,
     );
     return ScaleTransition(
       scale: fabAnimation,
