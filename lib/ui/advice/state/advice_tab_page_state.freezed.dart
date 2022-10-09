@@ -240,29 +240,29 @@ class _$_AdviceTabPageState implements _AdviceTabPageState {
       this.hideDone = HideFilter.display,
       this.sortType = SortType.desc});
 
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
   @override
   final List<AdviceListItemModel> adviceAllList;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
   @override
   final List<AdviceListItemModel> adviceCompletedList;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
   @override
   final List<AdviceListItemModel> adviceInCompletedList;
-  @JsonKey(defaultValue: "")
+  @JsonKey()
   @override
   final String searchWord;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool searchWordHasFocus;
   @override
   final DateVO? startDate;
   @override
   final DateVO? endDate;
-  @JsonKey(defaultValue: HideFilter.display)
+  @JsonKey()
   @override
   final HideFilter hideDone;
-  @JsonKey(defaultValue: SortType.desc)
+  @JsonKey()
   @override
   final SortType sortType;
 
@@ -282,17 +282,14 @@ class _$_AdviceTabPageState implements _AdviceTabPageState {
                 .equals(other.adviceCompletedList, adviceCompletedList) &&
             const DeepCollectionEquality()
                 .equals(other.adviceInCompletedList, adviceInCompletedList) &&
-            (identical(other.searchWord, searchWord) ||
-                other.searchWord == searchWord) &&
-            (identical(other.searchWordHasFocus, searchWordHasFocus) ||
-                other.searchWordHasFocus == searchWordHasFocus) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.hideDone, hideDone) ||
-                other.hideDone == hideDone) &&
-            (identical(other.sortType, sortType) ||
-                other.sortType == sortType));
+            const DeepCollectionEquality()
+                .equals(other.searchWord, searchWord) &&
+            const DeepCollectionEquality()
+                .equals(other.searchWordHasFocus, searchWordHasFocus) &&
+            const DeepCollectionEquality().equals(other.startDate, startDate) &&
+            const DeepCollectionEquality().equals(other.endDate, endDate) &&
+            const DeepCollectionEquality().equals(other.hideDone, hideDone) &&
+            const DeepCollectionEquality().equals(other.sortType, sortType));
   }
 
   @override
@@ -301,12 +298,12 @@ class _$_AdviceTabPageState implements _AdviceTabPageState {
       const DeepCollectionEquality().hash(adviceAllList),
       const DeepCollectionEquality().hash(adviceCompletedList),
       const DeepCollectionEquality().hash(adviceInCompletedList),
-      searchWord,
-      searchWordHasFocus,
-      startDate,
-      endDate,
-      hideDone,
-      sortType);
+      const DeepCollectionEquality().hash(searchWord),
+      const DeepCollectionEquality().hash(searchWordHasFocus),
+      const DeepCollectionEquality().hash(startDate),
+      const DeepCollectionEquality().hash(endDate),
+      const DeepCollectionEquality().hash(hideDone),
+      const DeepCollectionEquality().hash(sortType));
 
   @JsonKey(ignore: true)
   @override
