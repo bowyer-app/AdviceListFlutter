@@ -8,17 +8,42 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'ui/theme/app_theme_controller.dart';
 
-class App extends HookConsumerWidget {
+class App extends StatefulHookConsumerWidget {
   const App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _App();
+}
+
+class _App extends ConsumerState<App> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
     final appThemeController = ref.read(appThemeControllerProvider.notifier);
-    final theme = ref.watch(appThemeProvider);
-    final themeMode = ref
-        .watch(appThemeControllerProvider.select((value) => value.themeMode));
-    var brightness =
-        themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light;
+    appThemeController.didChangePlatformBrightness(
+      brightness: WidgetsBinding.instance.window.platformBrightness,
+    );
+    super.didChangePlatformBrightness();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final brightness = WidgetsBinding.instance.window.platformBrightness;
+    final appThemeController = ref.read(appThemeControllerProvider.notifier);
+    appThemeController.init(
+      brightness: brightness,
+    );
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarBrightness: brightness,
@@ -27,12 +52,10 @@ class App extends HookConsumerWidget {
 
     final appRouter = useMemoized(() => AppRouter());
 
-    appThemeController.init();
-
     return MaterialApp.router(
-      theme: theme.data,
+      theme: AppTheme.light().data,
       darkTheme: AppTheme.dark().data,
-      themeMode: themeMode,
+      themeMode: ThemeMode.system,
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       routeInformationParser: appRouter.defaultRouteParser(),
