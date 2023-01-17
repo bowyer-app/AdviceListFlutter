@@ -21,26 +21,24 @@ class AppThemeController extends StateNotifier<AppThemeState> {
 
   final ThemeRepository _themeRepository;
 
-  Future<void> init() async {
-    final currentTheme = await _themeRepository.loadThemeMode();
-    state = state.copyWith.call(themeMode: currentTheme);
+  Future<void> init({
+    required Brightness brightness,
+  }) async {
+    state = state.copyWith.call(
+      themeMode: brightness.themeMode(),
+    );
   }
 
-  Future<void> toggle() async {
-    final currentTheme = await _themeRepository.loadThemeMode();
-    final ThemeMode themeMode;
-    switch (currentTheme) {
-      case ThemeMode.dark:
-        themeMode = ThemeMode.light;
-        break;
-      case ThemeMode.light:
-        themeMode = ThemeMode.dark;
-        break;
-      default:
-        themeMode = ThemeMode.light;
-        break;
-    }
-    await _themeRepository.saveThemeMode(themeMode);
-    state = state.copyWith.call(themeMode: themeMode);
+  Future<void> didChangePlatformBrightness({
+    required Brightness brightness,
+  }) async {
+    state = state.copyWith.call(
+      themeMode: brightness.themeMode(),
+    );
   }
+}
+
+extension _BrightnessExt on Brightness {
+  ThemeMode themeMode() =>
+      this == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
 }
