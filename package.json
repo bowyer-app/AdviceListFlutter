@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "husky": "^6.0.0"
+  },
+  "dependencies": {
+    "fvm": "^0.3.0"
   }
 }
