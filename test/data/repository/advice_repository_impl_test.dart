@@ -35,8 +35,8 @@ void main() {
     final testAdvice = Advice(
       id: AdviceId(value: 1),
       adviceText: 'test advice',
-      created: DateVO('2023-01-01'),
-      updated: DateVO('2023-01-01'),
+      created: DateVO('2023/01/01'),
+      updated: DateVO('2023/01/01'),
       done: false,
     );
 
@@ -80,6 +80,7 @@ void main() {
         () => adviceRepository.loadAdviceList(query: testQuery),
         throwsA(isA<Exception>()),
       );
+      verify(() => mockAdviceDataSource.loadAdviceList(query: testQuery)).called(1);
     });
 
     test('save should rethrow exception when data source throws', () {
@@ -92,6 +93,7 @@ void main() {
         () => adviceRepository.save(testAdvice),
         throwsA(isA<Exception>()),
       );
+      verify(() => mockAdviceDataSource.save(testAdvice)).called(1);
     });
   });
 }
