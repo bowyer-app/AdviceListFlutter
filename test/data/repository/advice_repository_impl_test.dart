@@ -48,7 +48,7 @@ void main() {
 
     test('loadAdviceList should return advice list from data source', () async {
       // Arrange
-      when(() => mockAdviceDataSource.loadAdviceList(query: any(named: 'query')))
+      when(() => mockAdviceDataSource.loadAdviceList(query: testQuery))
           .thenAnswer((_) async => [testAdvice]);
 
       // Act
@@ -61,7 +61,7 @@ void main() {
 
     test('save should call save on data source', () async {
       // Arrange
-      when(() => mockAdviceDataSource.save(any())).thenAnswer((_) async {});
+      when(() => mockAdviceDataSource.save(testAdvice)).thenAnswer((_) async {});
 
       // Act
       await adviceRepository.save(testAdvice);
@@ -72,7 +72,7 @@ void main() {
 
     test('loadAdviceList should rethrow exception when data source throws', () {
       // Arrange
-      when(() => mockAdviceDataSource.loadAdviceList(query: any(named: 'query')))
+      when(() => mockAdviceDataSource.loadAdviceList(query: testQuery))
           .thenThrow(Exception('DataSource Error'));
 
       // Act & Assert
@@ -84,7 +84,7 @@ void main() {
 
     test('save should rethrow exception when data source throws', () {
       // Arrange
-      when(() => mockAdviceDataSource.save(any()))
+      when(() => mockAdviceDataSource.save(testAdvice))
           .thenThrow(Exception('DataSource Error'));
 
       // Act & Assert
