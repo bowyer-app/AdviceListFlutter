@@ -3,7 +3,6 @@ import 'package:app/ui/advice/advice_tab_page_controller.dart';
 import 'package:app/ui/component/fab/advice_add_fab_widget.dart';
 import 'package:app/ui/component/fab/filter_fab_widget.dart';
 import 'package:app/ui/component/scaffold/app_scaffold.dart';
-import 'package:app/ui/component/theme/theme_switch_widget.dart';
 import 'package:app/ui/hook/use_l10n.dart';
 import 'package:app/ui/route/app_route.dart';
 import 'package:app/ui/theme/app_theme.dart';
@@ -45,9 +44,6 @@ class AdviceTabPage extends HookConsumerWidget {
       ),
       title: l10n.adviceList,
       disableElevation: true,
-      menuActions: const [
-        ThemeSwitchWidget(),
-      ],
     );
   }
 }
